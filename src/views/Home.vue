@@ -1,12 +1,22 @@
 <script setup>
-import { ref } from "vue";
+import { ref, inject } from "vue";
 import { useQuasar } from "quasar";
+import HelloWorld from "../components/HelloWorld.vue";
+// import global from "../composables/global.js";
+// const { state, increment } = global;
+
+// import global from "../composables/global.js";
+// const { state, increment } = global;
+const store = inject("store");
+
 const $q = useQuasar();
 const bar = ref(null);
 function trigger() {
   const barRef = bar.value;
   barRef.start();
   $q.notify("Message");
+
+  store.increment(); // should increment the state of count
   $q.loading.show({
     message:
       'Some important <b>process</b> is in progress.<br/><span class="text-primary">Hang on...</span>',
@@ -31,7 +41,8 @@ function trigger() {
       size="10px"
       skip-hijack
     />
-
+    {{ store.state.count }}
     <q-btn color="primary" label="Trigger" @click="trigger" />
+    <HelloWorld />
   </q-page>
 </template>
