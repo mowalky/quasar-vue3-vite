@@ -11,10 +11,17 @@ const store = inject("store");
 
 const $q = useQuasar();
 const bar = ref(null);
+const notify = () => {
+  $q.notify({
+    message: "Hello from Quasar!",
+    color: "positive",
+    position: "right",
+    timeout: 2000,
+  });
+};
 function trigger() {
   const barRef = bar.value;
   barRef.start();
-  $q.notify("Message");
 
   store.increment(); // should increment the state of count
   $q.loading.show({
@@ -24,7 +31,7 @@ function trigger() {
   });
   setTimeout(() => {
     const barRef = bar.value;
-
+    notify();
     if (barRef) {
       $q.loading.hide();
       barRef.stop();
@@ -41,8 +48,10 @@ function trigger() {
       size="10px"
       skip-hijack
     />
-    {{ store.state.count }}
+    {{ store.state.count }} <q-icon name="font_download" />
     <q-btn color="primary" label="Trigger" @click="trigger" />
+    <q-btn color="primary" label="Notifiy" @click="notify" />
+    <q-btn color="secondary" label="About" to="about" />
     <HelloWorld />
   </q-page>
 </template>
